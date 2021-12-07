@@ -1,35 +1,41 @@
-// Import teh React and ReactDOM libraries
 import React from "react";
 import ReactDOM from "react-dom";
+import CommentDetail from "./CommentDetail";
+import ApprovalCard from "./ApprovalCard";
+import faker from "faker"
 
-// function getButtonText(){
-//     return 'Click on me!'
-// }
-
-// Create a react component
 const App = () => {
-
-    const buttonText = 'Click Me!'
-
     return (
-        <div>
-        {/* for JSX, use double quotes to indicate the string  */}
-        <label className="label" htmlFor="name">
-            Enter Name
-        </label>
-        <input type="text" id="name" />
-        {/* non JSX, use single quotes  */}
-        <button style={{ backgroundColor:'blue', color: 'white' }}> {buttonText} </button>
-        {/* { }  curly bracket on buttonText means the content will get form other js or function*/}
-    </div>
+        <div className="ui container comments">
+            <ApprovalCard>
+                <CommentDetail 
+                author="Sam" 
+                timeAgo="Today at 17:00 WIB" 
+                textBlog="Nice One!"
+                avatar= {faker.image.avatar()} />
+            </ApprovalCard>
+
+            <ApprovalCard>
+                <CommentDetail 
+                author="Alex" 
+                timeAgo="Today at 18:00 WIB" 
+                textBlog="Nice Two!" 
+                avatar= {faker.image.avatar()}
+                />
+            </ApprovalCard>
+
+            <ApprovalCard>
+                <CommentDetail 
+                author="Jane" 
+                timeAgo="Today at 19:00 WIB" 
+                textBlog="Nice Three!"
+                avatar= {faker.image.avatar()} />
+            </ApprovalCard>
+            {/* author, timeAgp, textBlog, avatar in here are props who will parsing children to a component */}
+        </div>
     );
 };
 
-// Take the react component and show it on the screen
-ReactDOM.render(
-<App />, 
-document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector('#root'));
 
-// NOTE : always open the console of your browser to know the error of your syntax
-
-// Component Nesting ; Component Resuability ; Component Configuration
+// in file index.js (contain with App), it's never use props because this is parent component
