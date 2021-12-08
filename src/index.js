@@ -1,41 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import CommentDetail from "./CommentDetail";
-import ApprovalCard from "./ApprovalCard";
-import faker from "faker"
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
 
-const App = () => {
-    return (
-        <div className="ui container comments">
-            <ApprovalCard>
-                <CommentDetail 
-                author="Sam" 
-                timeAgo="Today at 17:00 WIB" 
-                textBlog="Nice One!"
-                avatar= {faker.image.avatar()} />
-            </ApprovalCard>
+// const App = () => {
+//     window.navigator.geolocation.getCurrentPosition(
+//         position => console.log(position),
+//         err => console.log(err)        
+//     );
 
-            <ApprovalCard>
-                <CommentDetail 
-                author="Alex" 
-                timeAgo="Today at 18:00 WIB" 
-                textBlog="Nice Two!" 
-                avatar= {faker.image.avatar()}
-                />
-            </ApprovalCard>
+//     return <div>Latitude :</div>;
+// };
 
-            <ApprovalCard>
-                <CommentDetail 
-                author="Jane" 
-                timeAgo="Today at 19:00 WIB" 
-                textBlog="Nice Three!"
-                avatar= {faker.image.avatar()} />
-            </ApprovalCard>
-            {/* author, timeAgp, textBlog, avatar in here are props who will parsing children to a component */}
-        </div>
-    );
-};
+class App extends React.Component {
+    state = { lat: null , errorMessage: '' };
+
+    componentDidMount() {
+    // good place to do data-loading
+        window.navigator.geolocation.getCurrentPosition(
+            position => this.setState({ lat: position.coords.latitude }),
+                // setState have to use for update the data
+                // position.coords.latitude can be found in the Concole on browser
+            err => this.setState({ errorMessage:err.message})
+                // err.message can be found in the Console on browser
+                // bad habit if we ignore the error
+        );
+    }
+
+    // React says we have to define render!
+    render(){
+        if (this.state.errorMessage && !this.state.lat) {
+            return <div>Error : {this.state.errorMessage} </div>;
+        }
+        if(!this.state.errorMessage && this.state.lat) {
+            return <SeasonDisplay lat={this.state.lat} />;
+        }
+        return <Spinner />;
+    }
+}
 
 ReactDOM.render(<App />, document.querySelector('#root'));
-
-// in file index.js (contain with App), it's never use props because this is parent component
